@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.png" />
+  <title>code generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f0f0f0;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      font-size: 1rem;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <h1>code generator</h1>
+  <textarea id="textArea" placeholder="ここにコードやテキストを入力してください..."></textarea>
+
+  <script>
+    const textArea = document.getElementById('textArea');
+
+    // ページ読み込み時に保存されたテキストを復元
+    window.onload = () => {
+      const savedText = localStorage.getItem('code-generator-text');
+      if (savedText) {
+        textArea.value = savedText;
+      }
+    };
+
+    // 入力があるたびに保存
+    textArea.addEventListener('input', () => {
+      localStorage.setItem('code-generator-text', textArea.value);
+    });
+
+    // PWAインストール対応（Service Worker登録）
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered'))
+        .catch(err => console.log('Service Worker registration failed:', err));
+    }
+  </script>
+</body>
+</html>
